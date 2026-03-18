@@ -1,4 +1,4 @@
-# EdgeQuake Backend Deployment
+# AI-RAN GraphRAG Backend Deployment
 
 `git clone https://github.com/makbah/edgequake-airan.git`
 
@@ -82,7 +82,7 @@ Without Frontend: `docker compose -f docker-compose.yml up edgequake postgres`
 | `edgequake` | 8080 | EdgeQuake API server     |
 | `postgres`  | 5432 | PostgreSQL with pgvector |
 
-# EdgeQuake MCP-Server Deployment
+# AI-RAN GraphRAG MCP-Server Deployment
 
 `cd ../../mcp` or from root `cd mcp`
 `npm install`
