@@ -18,20 +18,34 @@ services:
       - EDGEQUAKE_HOST=0.0.0.0
       - EDGEQUAKE_PORT=8080
       - DATABASE_URL=postgres://edgequake:${POSTGRES_PASSWORD:-edgequake_secret}@postgres:5432/edgequake
+      # OpenAI
       - OPENAI_API_KEY=${OPENAI_API_KEY:-}
-      # FIX-DOCKER-OLLAMA: Use host.docker.internal to reach Ollama on the host
-      # machine. Without this, the container tries localhost:11434 which points
-      # to the container itself, causing "connection refused" and vision extraction
-      # timeouts that leave documents stuck in "processing" forever.
-      # On macOS/Windows Docker Desktop, host.docker.internal resolves to the host.
-      # On Linux, add `extra_hosts: ["host.docker.internal:host-gateway"]` below.
+      # - OPENAI_BASE_URL=${OPENAI_BASE_URL:-}
+      # Ollama
       - OLLAMA_HOST=${OLLAMA_HOST:-http://host.docker.internal:11434}
+      # LM Studio / vLLM
+      - LMSTUDIO_HOST=${LMSTUDIO_HOST:-}
+      - LMSTUDIO_MODEL=${LMSTUDIO_MODEL:-}
+      - LMSTUDIO_EMBEDDING_MODEL=${LMSTUDIO_EMBEDDING_MODEL:-}
+      - LMSTUDIO_EMBEDDING_DIM=${LMSTUDIO_EMBEDDING_DIM:-}
+      # Provider selection
       - EDGEQUAKE_LLM_PROVIDER=${EDGEQUAKE_LLM_PROVIDER:-ollama}
       - EDGEQUAKE_EMBEDDING_PROVIDER=${EDGEQUAKE_EMBEDDING_PROVIDER:-}
-      # Vision extraction timeout (seconds). Default 600s (10 min).
+      # Default workspace models
+      - EDGEQUAKE_DEFAULT_LLM_PROVIDER=${EDGEQUAKE_DEFAULT_LLM_PROVIDER:-}
+      - EDGEQUAKE_DEFAULT_LLM_MODEL=${EDGEQUAKE_DEFAULT_LLM_MODEL:-}
+      - EDGEQUAKE_DEFAULT_EMBEDDING_PROVIDER=${EDGEQUAKE_DEFAULT_EMBEDDING_PROVIDER:-}
+      - EDGEQUAKE_DEFAULT_EMBEDDING_MODEL=${EDGEQUAKE_DEFAULT_EMBEDDING_MODEL:-}
+      - EDGEQUAKE_DEFAULT_EMBEDDING_DIMENSION=${EDGEQUAKE_DEFAULT_EMBEDDING_DIMENSION:-}
+      # Vision (PDF extraction)
+      - EDGEQUAKE_VISION_PROVIDER=${EDGEQUAKE_VISION_PROVIDER:-}
+      - EDGEQUAKE_VISION_MODEL=${EDGEQUAKE_VISION_MODEL:-}
       - EDGEQUAKE_VISION_TIMEOUT_SECS=${EDGEQUAKE_VISION_TIMEOUT_SECS:-600}
-      - RUST_LOG=info,edgequake=debug
-    # Linux only: enable host.docker.internal resolution
+      # Workers & logging
+      - WORKER_THREADS=${WORKER_THREADS:-4}
+      - RUST_LOG=${RUST_LOG:-info,edgequake=debug}
+    # FIX-DOCKER-OLLAMA: enables host.docker.internal on Linux.
+    # On macOS/Windows Docker Desktop this is a no-op (already resolved).
     extra_hosts:
       - "host.docker.internal:host-gateway"
     depends_on:
