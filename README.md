@@ -121,7 +121,7 @@ See [mcp/](mcp/) for server implementation details.
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/raphaelmansuy/edgequake.git
+git clone https://github.com/makbah/edgequake-airan.git
 cd edgequake
 
 # 2. Install dependencies
