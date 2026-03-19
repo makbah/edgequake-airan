@@ -52,7 +52,7 @@ RUN apt-get update && apt-get install -y \
     libssl3 \
     curl \
     && rm -rf /var/lib/apt/lists/* \
-    && useradd -r -s /bin/false edgequake
+    && useradd -r -m -s /bin/false edgequake
 
 # Copy binary from builder
 COPY --from=builder /app/target/release/edgequake /usr/local/bin/
