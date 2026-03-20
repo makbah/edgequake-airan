@@ -44,10 +44,13 @@ services:
       # Workers & logging
       - WORKER_THREADS=${WORKER_THREADS:-4}
       - RUST_LOG=${RUST_LOG:-info,edgequake=debug}
+      - EDGEQUAKE_MODELS_CONFIG=${EDGEQUAKE_MODELS_CONFIG:-}
     # FIX-DOCKER-OLLAMA: enables host.docker.internal on Linux.
     # On macOS/Windows Docker Desktop this is a no-op (already resolved).
     extra_hosts:
       - "host.docker.internal:host-gateway"
+    volumes:
+      - ./models.toml:/app/models.toml:ro
     depends_on:
       postgres:
         condition: service_healthy
